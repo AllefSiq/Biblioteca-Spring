@@ -28,13 +28,6 @@ public class bibliotecaController {
 
     @GetMapping("/teste")
     public ResponseEntity save(){
-        Autor Ziraldo = new Autor(2L,"Ziraldo",new Date());
-        Livro OMMarrom = new Livro("O menino marrom", new Date(),Ziraldo, "Humor",45);
-
-        autorService.save(Ziraldo);
-        livroService.save(OMMarrom);
-
-
         return ResponseEntity.status(HttpStatus.OK).body("Sucesso");
 
     }
