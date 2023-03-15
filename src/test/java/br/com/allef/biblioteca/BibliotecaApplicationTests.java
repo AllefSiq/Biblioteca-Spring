@@ -57,7 +57,7 @@ class BibliotecaApplicationTests {
 	//Testa a listagem de autores
 	@Test
 	public void testListarAutores() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/biblioteca/autores"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/biblioteca/autors"))
 				.andExpect(status().isOk());
 
 	}
