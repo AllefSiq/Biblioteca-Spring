@@ -35,7 +35,7 @@ class BibliotecaApplicationTests {
 
 
 
-	//teste de conexão com o banco de dados
+	//teste de conexão com o banco de dados.
 	@Test
 	void testaConexaoComBanco(){
 		assertNotNull(livroService);
