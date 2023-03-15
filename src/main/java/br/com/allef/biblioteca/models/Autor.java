@@ -1,16 +1,14 @@
 package br.com.allef.biblioteca.models;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "autor")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Autor {
 
     @Id
@@ -19,9 +17,20 @@ public class Autor {
     private Long id;
     private String nome;
 
+    @ManyToMany
+    @JoinTable(name = "autores_livros",joinColumns = @JoinColumn(name = "autores_fk"),inverseJoinColumns = @JoinColumn(name = "biblioteca_fk"))
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<Livro> livros = new ArrayList<Livro>();
     private Date dataDeNascimento;
 
     public Autor(){}
+    public Autor(Autor autor){
+        this.id = autor.id;
+        this.dataDeNascimento = autor.dataDeNascimento;
+        this.nome = autor.nome;
+        this.livros = autor.livros;
+
+    }
 
     public Autor(Long id, String nome, Date dataDeNascimento) {
         this.id = id;
@@ -62,4 +71,11 @@ public class Autor {
     }
 
 
+    public List<Livro> getLivros() {
+        return livros;
+    }
+
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
+    }
 }
