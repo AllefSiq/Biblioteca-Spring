@@ -1,12 +1,17 @@
 package br.com.allef.biblioteca.models;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 
-    @Entity
+@Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     public class Livro {
 
         @Id
@@ -16,23 +21,25 @@ import java.util.Date;
 
         private Date lancamento;
 
-        @ManyToOne
-        @JoinColumn(name = "autor_id")
-        private Autor autor;
+        @ManyToMany(mappedBy = "livros")
+        @JsonIdentityReference(alwaysAsId = true)
+        @JsonProperty("autores")
+        private List<Autor> autores = new ArrayList<Autor>();
         private String Categoria;
         private Integer numEstoque;
 
 
         public Livro(){}
 
-        public Livro(String nome, Date lancamento, Autor autor, String categoria, Integer numEstoque) {
+    /*
+        public Livro(String nome, Date lancamento, String categoria, Integer numEstoque) {
             this.nome = nome;
             this.lancamento = lancamento;
-            this.autor = autor;
             Categoria = categoria;
             this.numEstoque = numEstoque;
-        }
 
+        }
+*/
         public boolean retirarDoEstoque(Integer numDeLivros){
             if (this.numEstoque>=numDeLivros) {
                 this.numEstoque = numEstoque - numDeLivros;
@@ -42,5 +49,48 @@ import java.util.Date;
                 return false;
         }
 
-
+    public List<Autor> getAutores() {
+        return autores;
     }
+
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Date getLancamento() {
+        return lancamento;
+    }
+
+    public void setLancamento(Date lancamento) {
+        this.lancamento = lancamento;
+    }
+
+    public String getCategoria() {
+        return Categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        Categoria = categoria;
+    }
+
+    public Integer getNumEstoque() {
+        return numEstoque;
+    }
+
+    public void setNumEstoque(Integer numEstoque) {
+        this.numEstoque = numEstoque;
+    }
+}
