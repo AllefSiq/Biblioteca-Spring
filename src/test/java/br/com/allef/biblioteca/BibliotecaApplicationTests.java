@@ -42,16 +42,19 @@ class BibliotecaApplicationTests {
 		assertNotNull(autorService);
 	}
 
+
 	@Test
 	void contextLoads() {
 	}
 
+	//Teste de listagem de livros
 	@Test
 	public void testListarLivros() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/biblioteca/livros"))
 				.andExpect(status().isOk());
 
 	}
+	//Testa a listagem de autores
 	@Test
 	public void testListarAutores() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/biblioteca/autores"))
