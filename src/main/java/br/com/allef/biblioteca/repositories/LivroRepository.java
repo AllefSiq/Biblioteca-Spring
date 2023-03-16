@@ -1,17 +1,13 @@
 package br.com.allef.biblioteca.repositories;
 
-import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.function.Function;
+import java.util.Optional;
 
 @Repository
-public interface LivroRepository extends JpaRepository<Livro,Integer> {
+public interface LivroRepository extends JpaRepository<Livro,Long> {
     @Override
     default <livro extends Livro> livro saveAndFlush(livro entity) {
         return null;
@@ -20,6 +16,12 @@ public interface LivroRepository extends JpaRepository<Livro,Integer> {
 
 
     Livro findByNome(String nome);
+
+    @Override
+    Optional<Livro> findById(Long id);
+
+
+
 
 
 }

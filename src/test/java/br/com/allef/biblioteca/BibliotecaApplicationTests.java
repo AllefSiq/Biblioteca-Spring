@@ -3,6 +3,7 @@ package br.com.allef.biblioteca;
 
 import br.com.allef.biblioteca.service.AutorService;
 import br.com.allef.biblioteca.service.LivroService;
+import br.com.allef.biblioteca.service.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,15 +22,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class BibliotecaApplicationTests {
 
-	private LivroService livroService;
-	private AutorService autorService;
-	private MockMvc mockMvc;
+	private final LivroService livroService;
+	private final AutorService autorService;
+	private final MockMvc mockMvc;
+	private final UsuarioService usuarioService;
+
 
 	@Autowired
-	public BibliotecaApplicationTests(LivroService livroService, AutorService autorService, MockMvc mockMvc) {
+	public BibliotecaApplicationTests(LivroService livroService, AutorService autorService, MockMvc mockMvc, UsuarioService usuarioService) {
 		this.livroService = livroService;
 		this.autorService = autorService;
 		this.mockMvc = mockMvc;
+		this.usuarioService = usuarioService;
 	}
 
 
@@ -40,6 +44,7 @@ class BibliotecaApplicationTests {
 	void testaConexaoComBanco(){
 		assertNotNull(livroService);
 		assertNotNull(autorService);
+		assertNotNull(usuarioService);
 	}
 
 
@@ -88,10 +93,20 @@ class BibliotecaApplicationTests {
 
 	}
 
+	//Teste de cadastro de usuario
+	@Test
+	public void testCadastrarUsuario() throws Exception {
+		String requestBody = "{\"nome\": \"Teste\", \"dataDeNascimentp\": \"2022-05-16\"}";
 
+		mockMvc.perform(MockMvcRequestBuilders.post("/biblioteca/cadastrarAutor").contentType("application/json").content(requestBody))
+				.andExpect(status().isOk());
+	}
 
+	//Teste de listagem de usuarios
+	@Test
+	public void testListarUsuarios() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/biblioteca/usuarios"))
+				.andExpect(status().isOk());
 
-
-
-
+	}
 }

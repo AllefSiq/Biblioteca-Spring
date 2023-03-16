@@ -26,7 +26,7 @@ public class LivroService {
     }
 
     //metodo para buscar livro por id
-    public Livro findById(Integer id){
+    public Livro findById(Long id){
         return livroRepository.findById(id).get();
     }
 

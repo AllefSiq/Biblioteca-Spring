@@ -16,7 +16,7 @@ import java.util.Set;
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
+        private Long id;
         private String nome;
 
         private Date lancamento;
@@ -40,13 +40,14 @@ import java.util.Set;
 
         }
 */
-        public boolean retirarDoEstoque(Integer numDeLivros){
-            if (this.numEstoque>=numDeLivros) {
-                this.numEstoque = numEstoque - numDeLivros;
-
+        public boolean retirarDoEstoque(){
+            if (numEstoque> 1){
+                numEstoque = numEstoque-1;
                 return true;
-            }else
+            }else{
                 return false;
+            }
+
         }
 
     public List<Autor> getAutores() {
@@ -58,7 +59,7 @@ import java.util.Set;
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

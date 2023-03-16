@@ -2,10 +2,8 @@ package br.com.allef.biblioteca.models;
 
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
@@ -14,13 +12,18 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String nome;
+    @Column(unique = true, nullable = false)
     private String email;
 
 
 
-    public Usuario(Long id, String nome, String email) {
-        this.id = id;
+    public Usuario() {
+    }
+
+    public Usuario(String nome, String email) {
         this.nome = nome;
         this.email = email;
 
