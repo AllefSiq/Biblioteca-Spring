@@ -22,6 +22,7 @@ public class Autor {
     @JsonIdentityReference(alwaysAsId = true)
     private List<Livro> livros = new ArrayList<Livro>();
     private Date dataDeNascimento;
+    private boolean ativo;
 
     public Autor(){}
     public Autor(Autor autor){
