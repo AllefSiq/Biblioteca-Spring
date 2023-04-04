@@ -19,6 +19,7 @@ public class Aluguel {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     private boolean devolvido;
+    
 
 
     //construtor

@@ -27,7 +27,7 @@ import java.util.Set;
         private List<Autor> autores = new ArrayList<Autor>();
         private String Categoria;
         private Integer numEstoque;
-
+        private boolean ativo;
 
         public Livro(){}
 
