@@ -27,19 +27,14 @@ import java.util.Set;
         private List<Autor> autores = new ArrayList<Autor>();
         private String Categoria;
         private Integer numEstoque;
-        private boolean ativo;
+
+
+        private boolean Ativo = true;
+
+
 
         public Livro(){}
 
-    /*
-        public Livro(String nome, Date lancamento, String categoria, Integer numEstoque) {
-            this.nome = nome;
-            this.lancamento = lancamento;
-            Categoria = categoria;
-            this.numEstoque = numEstoque;
-
-        }
-*/
         public boolean retirarDoEstoque(){
             if (numEstoque> 1){
                 numEstoque = numEstoque-1;
@@ -93,5 +88,9 @@ import java.util.Set;
 
     public void setNumEstoque(Integer numEstoque) {
         this.numEstoque = numEstoque;
+    }
+
+    public void devolverAoEstoque() {
+            numEstoque = numEstoque+1;
     }
 }

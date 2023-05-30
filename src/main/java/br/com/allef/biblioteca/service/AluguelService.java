@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AluguelService {
@@ -53,9 +54,37 @@ public class AluguelService {
 
     //big O notation O(n)
     public boolean verificarAluguel(Long usuarioId) {
-        List<Aluguel> aluguelList = aluguelRepository.findByUsuarioId(usuarioId).orElse(Collections.emptyList());
+        List<Aluguel> aluguelList = aluguelRepository.findByUsuarioIdAndAtivoIsTrue(usuarioId).orElse(Collections.emptyList());
         return aluguelList.stream().filter(Aluguel::isDevolvido).count() == aluguelList.size();
     }
-}
+
+    //metodo para devolver um livro
+    public boolean devolverLivro(Long livroId, Long usuarioId){
+        Optional<List<Aluguel>> listaDeAlugueisPorLivroEUsuario = aluguelRepository.findByUsuarioIdAndAtivoIsTrue(usuarioId);
+        if(listaDeAlugueisPorLivroEUsuario.isPresent()){
+            List<Aluguel> aluguelList = listaDeAlugueisPorLivroEUsuario.get();
+            Aluguel livroAlugado =  aluguelList.stream().filter(aluguel -> !aluguel.isDevolvido()).findFirst().orElse(null);
+
+            if(livroAlugado != null) {
+                livroAlugado.setDataDevolucao(new Date());
+                livroAlugado.getLivro().devolverAoEstoque();
+                livroAlugado.setDevolvido(true);
+                livroRepository.save(livroAlugado.getLivro());
+                aluguelRepository.save(livroAlugado);
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public List<Aluguel> listarAlugueisPorUsuario(long usuarioId){
+        return aluguelRepository.findByUsuarioIdAndAtivoIsTrue(usuarioId).orElse(Collections.emptyList());
+    }
+
+    }
+
+
 
 

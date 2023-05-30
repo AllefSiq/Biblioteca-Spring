@@ -2,6 +2,7 @@ package br.com.allef.biblioteca.models;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 
 import java.util.*;
@@ -20,9 +21,12 @@ public class Autor {
     @ManyToMany
     @JoinTable(name = "autores_livros",joinColumns = @JoinColumn(name = "autores_fk"),inverseJoinColumns = @JoinColumn(name = "biblioteca_fk"))
     @JsonIdentityReference(alwaysAsId = true)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Livro> livros = new ArrayList<Livro>();
     private Date dataDeNascimento;
     private boolean ativo;
+
+    private boolean Ativo = true;
 
     public Autor(){}
     public Autor(Autor autor){

@@ -23,5 +23,4 @@ public interface LivroRepository extends JpaRepository<Livro,Long> {
 
 
 
-
 }

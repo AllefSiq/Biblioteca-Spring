@@ -3,6 +3,7 @@ package br.com.allef.biblioteca.models;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -11,13 +12,16 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Long id;
 
     @Column(nullable = false)
     private String nome;
     @Column(unique = true, nullable = false)
     private String email;
-    private boolean ativo;
+
+
+    private boolean Ativo = true;
 
 
     public Usuario() {

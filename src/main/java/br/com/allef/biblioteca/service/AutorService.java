@@ -4,6 +4,7 @@ import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
 import br.com.allef.biblioteca.repositories.AutorRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,5 +35,13 @@ public class AutorService {
     }
 
 
+    @Transactional
+    public void deleteById(Integer id) {
+        autorRepository.deleteById(id);
+    }
 
+    @Transactional
+    public void delete(Autor autor) {
+        autorRepository.delete(autor);
+    }
 }
