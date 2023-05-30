@@ -28,7 +28,10 @@ import java.util.Set;
         private String Categoria;
         private Integer numEstoque;
 
+
         private boolean Ativo = true;
+
+
 
         public Livro(){}
 

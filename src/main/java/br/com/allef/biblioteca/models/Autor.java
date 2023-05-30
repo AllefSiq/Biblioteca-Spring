@@ -24,6 +24,7 @@ public class Autor {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Livro> livros = new ArrayList<Livro>();
     private Date dataDeNascimento;
+    private boolean ativo;
 
     private boolean Ativo = true;
 
