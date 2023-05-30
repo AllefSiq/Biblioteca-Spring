@@ -1,5 +1,7 @@
 package br.com.allef.biblioteca.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -13,13 +15,16 @@ public class Aluguel {
     private Date dataAluguel;
     private Date dataDevolucao;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIdentityReference(alwaysAsId = true)
     @JoinColumn(name = "livro_id")
     private Livro livro;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     private boolean devolvido;
 
+    private boolean ativo = true;
 
     //construtor
     public Aluguel(Date dataAluguel, Date dataDevolucao, Livro livro, Usuario usuario, boolean devolvido) {
