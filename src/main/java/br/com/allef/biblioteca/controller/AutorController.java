@@ -3,6 +3,7 @@ package br.com.allef.biblioteca.controller;
 
 import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.service.AutorService;
+import br.com.allef.biblioteca.service.ServiceResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,16 +47,13 @@ public class AutorController {
     }
 
 
-    @DeleteMapping(path = "deletarAutor/{id}")
-    public ResponseEntity deletarAutor(@PathVariable Integer id){
+    @DeleteMapping(path = "deletarAutor/{autorId}")
+    public ResponseEntity deletarAutor(@PathVariable Long autorId){
+        ServiceResponse response = autorService.delete(autorId);
+        if (response.isSuccess()){
+            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+        }else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
 
-        if (autorService.findById(id).isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor não encontrado");
-        }else {
-            Optional<Autor> autorOptional = autorService.findById(id);
-            Autor autor = autorOptional.get();
-            autorService.delete(autor);
-            return ResponseEntity.status(HttpStatus.OK).body("Autor deletado com sucesso");
-        }
     }
 }

@@ -21,7 +21,7 @@ public class Usuario {
     private String email;
 
 
-    private boolean Ativo = true;
+    private boolean ativo = true;
 
 
     public Usuario() {
@@ -57,6 +57,14 @@ public class Usuario {
         this.email = email;
     }
 
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
 
     @Override
     public String toString() {

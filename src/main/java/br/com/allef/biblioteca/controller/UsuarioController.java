@@ -1,6 +1,7 @@
 package br.com.allef.biblioteca.controller;
 
 import br.com.allef.biblioteca.models.Usuario;
+import br.com.allef.biblioteca.service.ServiceResponse;
 import br.com.allef.biblioteca.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,15 +33,17 @@ public class UsuarioController {
     }
 
 
-    @DeleteMapping(path = "deletarUsuario/{id}")
-    public ResponseEntity deletarUsuario(@PathVariable Long id){
-
-        if (usuarioService.findByID(id).isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
-        }else {
-            usuarioService.deleteById(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Usuario deletado com sucesso");
+    @DeleteMapping(path = "deletarUsuario/{usuarioId}")
+    public ResponseEntity deletarUsuario(@PathVariable Long usuarioId){
+        ServiceResponse response = usuarioService.delete(usuarioId);
+        if (response.isSuccess()){
+            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getMessage());
         }
     }
+
+
+
 
 }

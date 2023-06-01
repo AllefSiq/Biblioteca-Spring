@@ -20,6 +20,7 @@ public interface AluguelRepository extends JpaRepository<Aluguel,Long> {
     //retorna uma lista de alugueis de um usuario
     Optional<List<Aluguel>> findByUsuarioIdAndAtivoIsTrue(Long usuarioId);
 
+    Optional<List<Aluguel>> findByUsuarioIdAndAtivoIsTrueAndDevolvidoIsFalse(Long usuarioId);
 
     
 
