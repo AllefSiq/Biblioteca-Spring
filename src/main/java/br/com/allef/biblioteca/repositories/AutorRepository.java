@@ -9,19 +9,28 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface AutorRepository extends JpaRepository<Autor,Integer> {
+public interface AutorRepository extends JpaRepository<Autor,Long> {
 
-
-    Autor findByLivros(Livro livro);
 
 
     @Override
-    default void deleteById(Integer integer) {
+    default void deleteById(Long autorId) {
         
     }
+
 
 
     @Override
     default void delete(Autor entity) {
     }
+
+    Iterable<Autor> findAllByAtivoIsTrue();
+
+
+    Autor findByLivrosAndAtivoIsTrue(Livro livro);
+
+
+    Optional<Autor> findByIdAndAtivoIsTrue(Long autorId);
+
+
 }

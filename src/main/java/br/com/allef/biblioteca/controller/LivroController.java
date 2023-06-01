@@ -4,6 +4,7 @@ import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
 import br.com.allef.biblioteca.service.AutorService;
 import br.com.allef.biblioteca.service.LivroService;
+import br.com.allef.biblioteca.service.ServiceResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class LivroController {
 
 
     @GetMapping("/livrosPorAutor/{id}")
-    public ResponseEntity getLivrosPorAutor(@PathVariable Integer id){
+    public ResponseEntity getLivrosPorAutor(@PathVariable Long id){
 
         Optional<Autor> autor = autorService.findById(id);
         if(autor.isPresent()){
@@ -59,7 +60,7 @@ public class LivroController {
         livro.setCategoria((String) requestBody.get("categoria"));
         livro.setNumEstoque((Integer) requestBody.get("numEstoque"));
         for (Integer autor : autores){
-            Optional<Autor> autorDoBanco = autorService.findById(autor);
+            Optional<Autor> autorDoBanco = autorService.findById(Long.valueOf(autor));
             if (autorDoBanco.isEmpty())
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor não encontrado");
 
@@ -71,6 +72,15 @@ public class LivroController {
         }
         return ResponseEntity.status(HttpStatus.OK).body("Livro cadastrado com sucesso");
 
+    }
+
+    @DeleteMapping(path = "deletarLivro/{livroId}")
+    public ResponseEntity deletarLivro(@PathVariable Long livroId){
+        ServiceResponse response = livroService.delete(livroId);
+        if (response.isSuccess())
+            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
     }
 
 

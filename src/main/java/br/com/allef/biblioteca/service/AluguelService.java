@@ -6,6 +6,7 @@ import br.com.allef.biblioteca.models.Usuario;
 import br.com.allef.biblioteca.repositories.AluguelRepository;
 import br.com.allef.biblioteca.repositories.LivroRepository;
 import br.com.allef.biblioteca.repositories.UsuarioRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class AluguelService {
 
     //metodo para devolver um livro
     public boolean devolverLivro(Long livroId, Long usuarioId){
-        Optional<List<Aluguel>> listaDeAlugueisPorLivroEUsuario = aluguelRepository.findByUsuarioIdAndAtivoIsTrue(usuarioId);
+        Optional<List<Aluguel>> listaDeAlugueisPorLivroEUsuario = aluguelRepository.findByUsuarioIdAndAtivoIsTrueAndDevolvidoIsFalse(usuarioId);
         if(listaDeAlugueisPorLivroEUsuario.isPresent()){
             List<Aluguel> aluguelList = listaDeAlugueisPorLivroEUsuario.get();
             Aluguel livroAlugado =  aluguelList.stream().filter(aluguel -> !aluguel.isDevolvido()).findFirst().orElse(null);
@@ -82,6 +83,7 @@ public class AluguelService {
     public List<Aluguel> listarAlugueisPorUsuario(long usuarioId){
         return aluguelRepository.findByUsuarioIdAndAtivoIsTrue(usuarioId).orElse(Collections.emptyList());
     }
+
 
     }
 

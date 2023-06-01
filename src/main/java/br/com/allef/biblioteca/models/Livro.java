@@ -1,13 +1,11 @@
 package br.com.allef.biblioteca.models;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
 
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -29,13 +27,25 @@ import java.util.Set;
         private Integer numEstoque;
 
 
-        private boolean Ativo = true;
+        private boolean ativo = true;
 
 
+        public Livro(Livro livroDoAutor){
+            this.id = livroDoAutor.id;
+            this.nome = livroDoAutor.nome;
+            this.lancamento = livroDoAutor.lancamento;
+            this.Categoria = livroDoAutor.Categoria;
+            this.numEstoque = livroDoAutor.numEstoque;
+            this.autores = livroDoAutor.autores;
 
-        public Livro(){}
 
-        public boolean retirarDoEstoque(){
+        }
+
+    public Livro() {
+
+    }
+
+    public boolean retirarDoEstoque(){
             if (numEstoque> 1){
                 numEstoque = numEstoque-1;
                 return true;
@@ -93,4 +103,13 @@ import java.util.Set;
     public void devolverAoEstoque() {
             numEstoque = numEstoque+1;
     }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
 }
