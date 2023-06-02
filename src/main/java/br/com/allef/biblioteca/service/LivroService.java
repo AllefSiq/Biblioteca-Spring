@@ -5,10 +5,17 @@ import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
 import br.com.allef.biblioteca.repositories.AutorRepository;
 import br.com.allef.biblioteca.repositories.LivroRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -65,8 +72,26 @@ public class LivroService {
         }
     }
 
-    public void cadastrarLivro(Livro livro) {
-
+    public ServiceResponse cadastrarLivro(Map<String,Object> requestBody) throws ParseException {
+        List<Integer> autores = (List<Integer>) requestBody.get("autores");
+        Livro livro = new Livro();
+        livro.setNome((String) requestBody.get("nome"));
+        String dataString = (String) requestBody.get("nome");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date data = format.parse(dataString);
+        livro.setLancamento(data);
+        livro.setCategoria((String) requestBody.get("categoria"));
+        livro.setNumEstoque((Integer) requestBody.get("numEstoque"));
+        for (long autor : autores){
+            Optional<Autor> autorDoBanco = autorRepository.findByIdAndAtivoIsTrue(autor);
+            if (autorDoBanco.isEmpty())
+                return new ServiceResponse(false, "Autor nao encontrado");
+            livro.getAutores().add(autorDoBanco.get());
+            livroRepository.save(livro);
+            autorDoBanco.get().getLivros().add(livro);
+            autorRepository.save(autorDoBanco.get());
+        }
+        return new ServiceResponse(true,"Livro cadastrado com sucesso");
 
     }
 }

@@ -49,29 +49,11 @@ public class LivroController {
 
     @PostMapping(path = "cadastrarLivro", consumes = "application/json")
     public ResponseEntity cadastrarLivro(@RequestBody Map<String,Object> requestBody) throws ParseException {
-
-        List<Integer> autores = (List<Integer>) requestBody.get("autores");
-        Livro livro = new Livro();
-        livro.setNome((String) requestBody.get("nome"));
-        String dataString = (String) requestBody.get("lancamento");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        Date data = format.parse(dataString);
-        livro.setLancamento(data);
-        livro.setCategoria((String) requestBody.get("categoria"));
-        livro.setNumEstoque((Integer) requestBody.get("numEstoque"));
-        for (Integer autor : autores){
-            Optional<Autor> autorDoBanco = autorService.findById(Long.valueOf(autor));
-            if (autorDoBanco.isEmpty())
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor não encontrado");
-
-            livro.getAutores().add(autorDoBanco.get());
-            livroService.save(livro);
-            autorDoBanco.get().getLivros().add(livro);
-            autorService.save(autorDoBanco.get());
-
-        }
-        return ResponseEntity.status(HttpStatus.OK).body("Livro cadastrado com sucesso");
-
+        ServiceResponse response = livroService.cadastrarLivro(requestBody);
+        if (response.isSuccess())
+            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
     }
 
     @DeleteMapping(path = "deletarLivro/{livroId}")
