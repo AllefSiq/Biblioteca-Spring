@@ -1,8 +1,10 @@
 package br.com.allef.biblioteca.models;
+
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,50 +12,50 @@ import java.util.List;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    public class Livro {
+public class Livro implements Serializable {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
 
-        private Date lancamento;
+    private Date lancamento;
 
-        @ManyToMany(mappedBy = "livros")
-        @JsonIdentityReference(alwaysAsId = true)
-        @JsonProperty("autores")
-        private List<Autor> autores = new ArrayList<Autor>();
-        private String Categoria;
-        private Integer numEstoque;
-
-
-        private boolean ativo = true;
+    @ManyToMany(mappedBy = "livros", fetch = FetchType.EAGER)
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty("autores")
+    private List<Autor> autores = new ArrayList<Autor>();
+    private String Categoria;
+    private Integer numEstoque;
 
 
-        public Livro(Livro livroDoAutor){
-            this.id = livroDoAutor.id;
-            this.nome = livroDoAutor.nome;
-            this.lancamento = livroDoAutor.lancamento;
-            this.Categoria = livroDoAutor.Categoria;
-            this.numEstoque = livroDoAutor.numEstoque;
-            this.autores = livroDoAutor.autores;
+    private boolean ativo = true;
 
 
-        }
+    public Livro(Livro livroDoAutor) {
+        this.id = livroDoAutor.id;
+        this.nome = livroDoAutor.nome;
+        this.lancamento = livroDoAutor.lancamento;
+        this.Categoria = livroDoAutor.Categoria;
+        this.numEstoque = livroDoAutor.numEstoque;
+        this.autores = livroDoAutor.autores;
+
+
+    }
 
     public Livro() {
 
     }
 
-    public boolean retirarDoEstoque(){
-            if (numEstoque> 1){
-                numEstoque = numEstoque-1;
-                return true;
-            }else{
-                return false;
-            }
-
+    public boolean retirarDoEstoque() {
+        if (numEstoque > 1) {
+            numEstoque = numEstoque - 1;
+            return true;
+        } else {
+            return false;
         }
+
+    }
 
     public List<Autor> getAutores() {
         return autores;
@@ -101,7 +103,7 @@ import java.util.List;
     }
 
     public void devolverAoEstoque() {
-            numEstoque = numEstoque+1;
+        numEstoque = numEstoque + 1;
     }
 
     public boolean isAtivo() {

@@ -25,14 +25,8 @@ public class AluguelController {
     }
 
 
-
-
-
-
-
-
     @PostMapping(path = "novoAluguel", consumes = "application/json")
-    public ResponseEntity novoAluguel(@RequestBody Map<String,Long> requestBody) throws ParseException {
+    public ResponseEntity novoAluguel(@RequestBody Map<String, Long> requestBody) throws ParseException {
         Long livroId = requestBody.get("livroId");
         Long usuarioId = requestBody.get("usuarioId");
 
@@ -44,27 +38,26 @@ public class AluguelController {
     }
 
     @PostMapping(path = "devolverLivro", consumes = "application/json")
-    public ResponseEntity devoloverLivro(@RequestBody Map<String,Long> requestBody) throws ParseException {
+    public ResponseEntity devoloverLivro(@RequestBody Map<String, Long> requestBody) throws ParseException {
         Long livroId = requestBody.get("livroId");
         Long usuarioId = requestBody.get("usuarioId");
-        if (!aluguelService.devolverLivro(livroId,usuarioId)){
+        if (!aluguelService.devolverLivro(livroId, usuarioId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não possui aluguel pendente");
-        }return ResponseEntity.status(HttpStatus.OK).body("Livro devolvido com sucesso");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Livro devolvido com sucesso");
 
 
     }
 
     @GetMapping(path = "listarAlugueis/{usuarioId}")
-    public List listarAlugueis(@PathVariable Long usuarioId){
+    public List listarAlugueis(@PathVariable Long usuarioId) {
         List<Aluguel> aluguelList = aluguelService.listarAlugueisPorUsuario(usuarioId);
-        if (!aluguelList.isEmpty()){
+        if (!aluguelList.isEmpty()) {
             return aluguelList;
         }
         return null;
 
     }
-
-
 
 
 }

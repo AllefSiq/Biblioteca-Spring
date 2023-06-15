@@ -1,14 +1,14 @@
 package br.com.allef.biblioteca.models;
 
 
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Usuario {
+public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
