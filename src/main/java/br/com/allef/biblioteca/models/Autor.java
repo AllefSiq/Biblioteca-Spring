@@ -5,12 +5,13 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
 
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "autor")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Autor {
+public class Autor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +19,8 @@ public class Autor {
     private Long id;
     private String nome;
 
-    @ManyToMany
-    @JoinTable(name = "autores_livros",joinColumns = @JoinColumn(name = "autores_fk"),inverseJoinColumns = @JoinColumn(name = "biblioteca_fk"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "autores_livros", joinColumns = @JoinColumn(name = "autores_fk"), inverseJoinColumns = @JoinColumn(name = "biblioteca_fk"))
     @JsonIdentityReference(alwaysAsId = true)
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private List<Livro> livros = new ArrayList<Livro>();
@@ -27,8 +28,10 @@ public class Autor {
 
     private boolean ativo = true;
 
-    public Autor(){}
-    public Autor(Autor autor){
+    public Autor() {
+    }
+
+    public Autor(Autor autor) {
         this.id = autor.id;
         this.dataDeNascimento = autor.dataDeNascimento;
         this.nome = autor.nome;

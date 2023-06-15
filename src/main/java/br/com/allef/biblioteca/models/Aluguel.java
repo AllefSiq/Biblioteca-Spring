@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Aluguel {
+public class Aluguel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class Aluguel {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     private boolean devolvido;
-    
+
 
     private boolean ativo = true;
 
