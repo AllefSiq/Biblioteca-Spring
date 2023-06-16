@@ -27,8 +27,8 @@ public class Livro implements Serializable {
     private List<Autor> autores = new ArrayList<Autor>();
     private String Categoria;
     private Integer numEstoque;
-
-
+    private String descricao;
+    private String imagem;
     private boolean ativo = true;
 
 
