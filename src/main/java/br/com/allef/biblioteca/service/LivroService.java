@@ -1,6 +1,7 @@
 package br.com.allef.biblioteca.service;
 
 
+import br.com.allef.biblioteca.exceptions.ErroDeInsercaoException;
 import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
 import br.com.allef.biblioteca.repositories.AutorRepository;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.text.ParseException;
@@ -71,6 +73,7 @@ public class LivroService {
             return new ServiceResponse(false, "Livro nao encontrado");
         }
     }
+
 
     public ServiceResponse cadastrarLivro(Map<String, Object> requestBody) throws ParseException {
         List<Integer> autores = (List<Integer>) requestBody.get("autores");
