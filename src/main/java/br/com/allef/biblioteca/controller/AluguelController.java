@@ -2,8 +2,7 @@ package br.com.allef.biblioteca.controller;
 
 import br.com.allef.biblioteca.models.Aluguel;
 import br.com.allef.biblioteca.service.AluguelService;
-import org.aspectj.lang.annotation.Before;
-import org.junit.BeforeClass;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/aluguel")
@@ -26,7 +24,7 @@ public class AluguelController {
 
 
     @PostMapping(path = "novoAluguel", consumes = "application/json")
-    public ResponseEntity novoAluguel(@RequestBody Map<String, Long> requestBody) throws ParseException {
+    public ResponseEntity novoAluguel(@RequestBody Map<String, Long> requestBody) {
         Long livroId = requestBody.get("livroId");
         Long usuarioId = requestBody.get("usuarioId");
 
@@ -38,7 +36,7 @@ public class AluguelController {
     }
 
     @PutMapping(path = "devolverLivro", consumes = "application/json")
-    public ResponseEntity devoloverLivro(@RequestBody Map<String, Long> requestBody) throws ParseException {
+    public ResponseEntity devoloverLivro(@RequestBody Map<String, Long> requestBody) {
         Long livroId = requestBody.get("livroId");
         Long usuarioId = requestBody.get("usuarioId");
         if (!aluguelService.devolverLivro(livroId, usuarioId)) {
