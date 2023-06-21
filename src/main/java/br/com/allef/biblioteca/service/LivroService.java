@@ -6,11 +6,13 @@ import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
 import br.com.allef.biblioteca.repositories.AutorRepository;
 import br.com.allef.biblioteca.repositories.LivroRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.text.ParseException;
@@ -72,16 +74,17 @@ public class LivroService {
     }
 
 
-    public ServiceResponse buscarLivrosPorAutor(long autorId) {
-        Optional<Autor> autorOptional = autorRepository.findByIdAndAtivoIsTrue(autorId);
-        if (autorOptional.isPresent()) {
-            Autor autor = autorOptional.get();
-            List<Livro> livros = autor.getLivros();
-            return new ServiceResponse(true, livros.toString(), HttpStatus.OK);
+    @Cacheable("lista-livros-autor")
+    public List livrosPorAutor(@PathVariable Long id) {
+        Optional<Autor> autor = autorRepository.findByIdAndAtivoIsTrue(id);
+        if (autor.isPresent()) {
+            return autor.get().getLivros();
         } else {
-            return new ServiceResponse(false, "Autor nao encontrado", HttpStatus.NOT_FOUND);
+            ArrayList<String> autorNaoEncontrado = new ArrayList<>();
+            return autorNaoEncontrado;
         }
     }
+
 
     @Transactional(rollbackFor = ErroDeInsercaoException.class)
     public ServiceResponse cadastrarLivro(Map<String, Object> requestBody) {
