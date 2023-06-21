@@ -236,7 +236,7 @@ class BibliotecaApplicationTests {
                 .getResponse()
                 .getContentAsString();
 
-        List<Map<String, String>> map = objectMapper.readValue(response, new TypeReference<List<Map<String, String>>>() {
+        List<Map<String, String>> map = objectMapper.readValue(response, new TypeReference<>() {
         });
 
         System.out.println(map.get(0));
