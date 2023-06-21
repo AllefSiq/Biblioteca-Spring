@@ -72,6 +72,17 @@ public class LivroService {
     }
 
 
+    public ServiceResponse buscarLivrosPorAutor(long autorId) {
+        Optional<Autor> autorOptional = autorRepository.findByIdAndAtivoIsTrue(autorId);
+        if (autorOptional.isPresent()) {
+            Autor autor = autorOptional.get();
+            List<Livro> livros = autor.getLivros();
+            return new ServiceResponse(true, livros.toString(), HttpStatus.OK);
+        } else {
+            return new ServiceResponse(false, "Autor nao encontrado", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @Transactional(rollbackFor = ErroDeInsercaoException.class)
     public ServiceResponse cadastrarLivro(Map<String, Object> requestBody) {
         try {
