@@ -114,4 +114,17 @@ public class Livro implements Serializable {
         this.ativo = ativo;
     }
 
+    @Override
+    public String toString() {
+
+        return "Livro{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", lancamento=" + lancamento +
+                ", autores=" + autores +
+                ", Categoria='" + Categoria + '\'' +
+                ", numEstoque=" + numEstoque +
+                ", ativo=" + ativo +
+                '}';
+    }
 }

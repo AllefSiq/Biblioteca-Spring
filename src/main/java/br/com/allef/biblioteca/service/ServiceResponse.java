@@ -2,7 +2,9 @@ package br.com.allef.biblioteca.service;
 
 import org.springframework.http.HttpStatus;
 
-public class ServiceResponse {
+import java.io.Serializable;
+
+public class ServiceResponse implements Serializable {
     private boolean success;
     private String message;
 

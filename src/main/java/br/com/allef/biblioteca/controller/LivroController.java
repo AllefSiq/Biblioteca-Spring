@@ -36,35 +36,30 @@ public class LivroController {
 
 
     @GetMapping("/livrosPorAutor/{id}")
-    @Cacheable("lista-livros-autor")
-    public List getLivrosPorAutor(@PathVariable Long id) {
-
-        Optional<Autor> autor = autorService.findById(id);
-        if (autor.isPresent()) {
-            return autor.get().getLivros();
-        } else {
-            ArrayList<String> autorNaoEncontrado = new ArrayList<>();
-            autorNaoEncontrado.add("Autor nao encontrado");
-            return autorNaoEncontrado;
-        }
+    public ResponseEntity livrosPorAutor(@PathVariable Long id) {
+        List livros = livroService.livrosPorAutor(id);
+        if (livros.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor não encontrado");
+        else
+            return ResponseEntity.status(HttpStatus.OK).body(livros);
     }
 
     @PostMapping(path = "cadastrarLivro", consumes = "application/json")
     public ResponseEntity cadastrarLivro(@RequestBody Map<String, Object> requestBody) throws ParseException {
         ServiceResponse response = livroService.cadastrarLivro(requestBody);
         if (response.isSuccess())
-            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
+            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
         else
-            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
     }
 
     @DeleteMapping(path = "deletarLivro/{livroId}")
     public ResponseEntity deletarLivro(@PathVariable Long livroId) {
         ServiceResponse response = livroService.delete(livroId);
         if (response.isSuccess())
-            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
+            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
         else
-            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
     }
 
 
