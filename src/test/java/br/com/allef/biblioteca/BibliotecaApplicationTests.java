@@ -1,7 +1,6 @@
 package br.com.allef.biblioteca;
 
 
-import br.com.allef.biblioteca.models.Aluguel;
 import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
 import br.com.allef.biblioteca.models.Usuario;
@@ -10,20 +9,15 @@ import br.com.allef.biblioteca.service.LivroService;
 import br.com.allef.biblioteca.service.UsuarioService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.BeforeClass;
-
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Arrays;
 import java.util.List;
