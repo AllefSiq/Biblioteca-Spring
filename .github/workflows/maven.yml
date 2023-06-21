@@ -18,8 +18,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
+    
+    
     steps:
+    - name: Setup Redis
+    # You may pin to the exact commit or the version.
+    # uses: zhulik/redis-action@765216a54a1114f109ce90a1de4775080be16ea5
+      uses: zhulik/redis-action@1.1.0
+    
     - uses: actions/checkout@v3
     - name: Set up JDK 17
       uses: actions/setup-java@v3
