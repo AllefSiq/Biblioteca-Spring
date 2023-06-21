@@ -39,9 +39,9 @@ public class UsuarioController {
     public ResponseEntity deletarUsuario(@PathVariable Long usuarioId) {
         ServiceResponse response = usuarioService.delete(usuarioId);
         if (response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
         }
     }
 

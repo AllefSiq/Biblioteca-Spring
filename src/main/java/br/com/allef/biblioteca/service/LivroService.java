@@ -65,9 +65,9 @@ public class LivroService {
             }
             livro.setAtivo(false);
             livroRepository.save(livro);
-            return new ServiceResponse(true, "Livro deletado com sucesso");
+            return new ServiceResponse(true, "Livro deletado com sucesso", HttpStatus.OK);
         } else {
-            return new ServiceResponse(false, "Livro nao encontrado");
+            return new ServiceResponse(false, "Livro nao encontrado", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -104,9 +104,9 @@ public class LivroService {
             } else {
                 throw new ErroDeInsercaoException("Erro ao cadastrar livro");
             }
-            return new ServiceResponse(true, "Livro cadastrado com sucesso");
+            return new ServiceResponse(true, "Livro cadastrado com sucesso", HttpStatus.OK);
         } catch (Exception e) {
-            return new ServiceResponse(false, e.getMessage());
+            return new ServiceResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

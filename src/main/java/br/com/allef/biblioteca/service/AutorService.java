@@ -4,6 +4,7 @@ import br.com.allef.biblioteca.models.Autor;
 import br.com.allef.biblioteca.models.Livro;
 import br.com.allef.biblioteca.repositories.AutorRepository;
 import br.com.allef.biblioteca.repositories.LivroRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,20 +23,20 @@ public class AutorService {
         this.livroRepository = livroRepository;
     }
 
-    public Autor save(Autor autor){
+    public Autor save(Autor autor) {
         return autorRepository.save(autor);
     }
 
-    public Optional<Autor> findById(Long id){
+    public Optional<Autor> findById(Long id) {
         return autorRepository.findById(id);
     }
 
     //metodo para retornar uma lista de livros
-    public Iterable<Autor> findAll(){
+    public Iterable<Autor> findAll() {
         return autorRepository.findAllByAtivoIsTrue();
     }
 
-    public Autor findByLivros(Livro livro){
+    public Autor findByLivros(Livro livro) {
         return autorRepository.findByLivrosAndAtivoIsTrue(livro);
     }
 
@@ -46,18 +47,17 @@ public class AutorService {
     }
 
 
-
-    public ServiceResponse delete(Long autorId){
+    public ServiceResponse delete(Long autorId) {
         Optional<Autor> autorOptional = autorRepository.findByIdAndAtivoIsTrue(autorId);
-        if(autorOptional.isPresent()){
+        if (autorOptional.isPresent()) {
             Autor autor = autorOptional.get();
             autor.setAtivo(false);
             autor.getLivros().clear();
             autorRepository.save(autor);
-            return new ServiceResponse( true,"Autor deletado com sucesso");
+            return new ServiceResponse(true, "Autor deletado com sucesso", HttpStatus.OK);
 
 
-        }else return new ServiceResponse(false,"Autor nao Encontrado");
+        } else return new ServiceResponse(false, "Autor nao Encontrado", HttpStatus.NOT_FOUND);
 
     }
 

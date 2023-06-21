@@ -52,9 +52,9 @@ public class AutorController {
     public ResponseEntity deletarAutor(@PathVariable Long autorId) {
         ServiceResponse response = autorService.delete(autorId);
         if (response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
         } else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
 
     }
 }
