@@ -37,7 +37,7 @@ public class AluguelController {
 
     }
 
-    @PostMapping(path = "devolverLivro", consumes = "application/json")
+    @PutMapping(path = "devolverLivro", consumes = "application/json")
     public ResponseEntity devoloverLivro(@RequestBody Map<String, Long> requestBody) throws ParseException {
         Long livroId = requestBody.get("livroId");
         Long usuarioId = requestBody.get("usuarioId");
