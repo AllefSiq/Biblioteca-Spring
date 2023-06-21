@@ -290,7 +290,7 @@ class BibliotecaApplicationTests {
         mockMvc.perform(MockMvcRequestBuilders.post("/aluguel/novoAluguel").contentType("application/json").content(requestBodyAluguel));
 
         String requestBodyDevolver = "{\"livroId\":1,\"usuarioId\":1}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/aluguel/devolverLivro").contentType("application/json").content(requestBodyDevolver))
+        mockMvc.perform(MockMvcRequestBuilders.put("/aluguel/devolverLivro").contentType("application/json").content(requestBodyDevolver))
                 .andExpect(status().isOk());
     }
 
