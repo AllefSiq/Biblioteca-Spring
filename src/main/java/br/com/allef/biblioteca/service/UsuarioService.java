@@ -28,8 +28,12 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
-    public Usuario save(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public ServiceResponse save(Usuario usuario) {
+        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
+            return new ServiceResponse(false, "Email ja cadastrado", HttpStatus.BAD_REQUEST);
+        }
+        usuarioRepository.save(usuario);
+        return new ServiceResponse(true, "Usuario cadastrado com sucesso", HttpStatus.OK);
     }
 
 

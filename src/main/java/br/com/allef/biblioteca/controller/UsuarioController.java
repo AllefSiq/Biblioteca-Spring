@@ -24,8 +24,8 @@ public class UsuarioController {
 
     @PostMapping(path = "cadastrarUsuario", consumes = "application/json")
     public ResponseEntity cadastrarUsuario(@RequestBody Usuario usuario) {
-        usuarioService.save(usuario);
-        return ResponseEntity.status(HttpStatus.OK).body("Usuario cadastrado com sucesso");
+        ServiceResponse response = usuarioService.save(usuario);
+        return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
     }
 
     @GetMapping("/listarUsuarios")
