@@ -53,18 +53,18 @@ public class LivroController {
     public ResponseEntity cadastrarLivro(@RequestBody Map<String, Object> requestBody) throws ParseException {
         ServiceResponse response = livroService.cadastrarLivro(requestBody);
         if (response.isSuccess())
-            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
     }
 
     @DeleteMapping(path = "deletarLivro/{livroId}")
     public ResponseEntity deletarLivro(@PathVariable Long livroId) {
         ServiceResponse response = livroService.delete(livroId);
         if (response.isSuccess())
-            return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response.getMessage());
+            return ResponseEntity.status(response.getHttpStatus()).body(response.getMessage());
     }
 
 

@@ -4,6 +4,7 @@ import br.com.allef.biblioteca.models.Aluguel;
 import br.com.allef.biblioteca.models.Usuario;
 import br.com.allef.biblioteca.repositories.AluguelRepository;
 import br.com.allef.biblioteca.repositories.UsuarioRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +24,11 @@ public class UsuarioService {
         this.aluguelRepository = aluguelRepository;
     }
 
-    public Optional<Usuario> findByID(Long id){
+    public Optional<Usuario> findByID(Long id) {
         return usuarioRepository.findById(id);
     }
 
-    public Usuario save(Usuario usuario){
+    public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
@@ -37,25 +38,25 @@ public class UsuarioService {
     }
 
 
-    public ServiceResponse delete(long usuarioId){
+    public ServiceResponse delete(long usuarioId) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findByIdAndAtivoIsTrue(usuarioId);
-        if (usuarioOptional.isPresent()){
+        if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
             Optional<List<Aluguel>> listaDeAluguel = aluguelRepository.findByUsuarioIdAndAtivoIsTrueAndDevolvidoIsFalse(usuarioId);
             if (listaDeAluguel.isPresent()) {
                 List<Aluguel> alugueis = listaDeAluguel.get();
                 if (!alugueis.isEmpty()) {
-                    return new ServiceResponse(false, "Usuario com aluguel pendente");
+                    return new ServiceResponse(false, "Usuario com aluguel pendente", HttpStatus.FORBIDDEN);
                 }
-            }else {
-                return new ServiceResponse(false,"Erro Interno");
+            } else {
+                return new ServiceResponse(false, "Erro Interno", HttpStatus.INTERNAL_SERVER_ERROR);
             }
             usuario.setAtivo(false);
             usuarioRepository.save(usuario);
-            return new ServiceResponse(true, "Usuario deletado com sucesso");
+            return new ServiceResponse(true, "Usuario deletado com sucesso", HttpStatus.OK);
 
         }
-        return new ServiceResponse(false, "Usuario nao encontrado");
+        return new ServiceResponse(false, "Usuario nao encontrado", HttpStatus.NOT_FOUND);
     }
 
 }

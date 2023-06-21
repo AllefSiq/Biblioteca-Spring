@@ -361,6 +361,6 @@ class BibliotecaApplicationTests {
         String requestBodyAluguel = "{\"livroId\":1,\"usuarioId\":1}";
         mockMvc.perform(MockMvcRequestBuilders.post("/aluguel/novoAluguel").contentType("application/json").content(requestBodyAluguel));
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/usuarios/deletarUsuario/1")).andExpect(status().isBadRequest());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/usuarios/deletarUsuario/1")).andExpect(status().isForbidden());
     }
 }
